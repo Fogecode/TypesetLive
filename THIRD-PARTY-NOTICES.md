@@ -1,11 +1,11 @@
 # 第三方组件声明 · Third-Party Notices
 
-**Typeset** 的自身代码采用 MIT License（见 [LICENSE](LICENSE)）。
+**Typeset Live** 的自身代码采用 MIT License（见 [LICENSE](LICENSE)）。
 
 构建产物 `main.js` 中**打包（bundle）**了下列第三方开源库。它们的许可证允许商业使用与再分发，
 但要求**保留版权声明与许可文本**，故在此完整收录。
 
-> 为什么必须保留：Typeset 使用 esbuild 将依赖打包进单个 `main.js`。
+> 为什么必须保留：Typeset Live 使用 esbuild 将依赖打包进单个 `main.js`。
 > 一旦以二进制/打包形式分发，MIT 与 BSD-3-Clause 均要求随附许可证文本。
 
 ---
@@ -126,13 +126,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 | esbuild | MIT | 打包 |
 | typescript | Apache-2.0 | 类型检查 |
 | obsidian（类型定义） | MIT | API 类型 |
-| playwright | Apache-2.0 | 端到端验证 |
+| @types/node | MIT | Node 类型 |
+| playwright-core | Apache-2.0 | 端到端验证 |
 
 ---
 
 ## 4. 关于 Obsidian 本身
 
-Typeset 是 **Obsidian 的第三方插件**，与 Obsidian 官方（Dynalist Inc.）**无隶属关系**，未获其背书。
-"Obsidian" 是其各自权利人的商标，本项目（Typeset）仅在描述兼容性时使用。
+Typeset Live 是 **Obsidian 的第三方插件**，与 Obsidian 官方（Dynalist Inc.）**无隶属关系**，未获其背书。
+"Obsidian" 是其各自权利人的商标，本项目（Typeset Live）仅在描述兼容性时使用。
 
 插件通过 Obsidian 公开的插件 API 接入，未包含或再分发 Obsidian 自身的任何代码。
