@@ -1,0 +1,10 @@
+{
+  "id": "typeset-live",
+  "name": "Typeset Live",
+  "version": "1.0.0",
+  "minAppVersion": "1.4.0",
+  "description": "在 Obsidian 标签页内实时预览当前笔记的网页渲染效果：8 套主题、跟随编辑、内链跳转。",
+  "author": "Fogecode",
+  "authorUrl": "https://github.com/Fogecode",
+  "isDesktopOnly": false
+}

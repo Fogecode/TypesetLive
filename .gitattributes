@@ -1,0 +1,32 @@
+# Normalise line endings in the repository.
+* text=auto eol=lf
+
+# Source & docs: always LF
+*.ts    text eol=lf
+*.js    text eol=lf
+*.mjs   text eol=lf
+*.cjs   text eol=lf
+*.json  text eol=lf
+*.css   text eol=lf
+*.md    text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+
+# Windows scripts keep CRLF so they run in legacy shells too
+*.ps1   text eol=crlf
+*.bat   text eol=crlf
+*.cmd   text eol=crlf
+
+# Binary: never touch
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.webp  binary
+*.ico   binary
+*.zip   binary
+*.woff  binary
+*.woff2 binary
+
+# Keep the built bundle byte-stable for releases
+main.js -diff linguist-generated=true

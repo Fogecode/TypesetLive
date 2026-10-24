@@ -1,0 +1,36 @@
+# ---- dependencies ----
+node_modules/
+.pnpm-store/
+
+# ---- build output that is NOT shipped ----
+data/
+*.tsbuildinfo
+
+# ---- archives ----
+*.zip
+
+# ---- editor / OS noise ----
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- logs & temp ----
+*.log
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+tmp/
+temp/
+.cache/
+
+# ---- local secrets / machine-specific ----
+.env
+.env.*
+!.env.example
+secrets.local.json
+plugin.config.json

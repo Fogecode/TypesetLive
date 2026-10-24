@@ -1,0 +1,31 @@
+{
+  "name": "obsidian-typeset-live",
+  "version": "1.0.0",
+  "description": "Live in-Obsidian web preview of the current note, powered by the Typeset renderer.",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node build.mjs --watch",
+    "build": "node build.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "obsidian",
+    "obsidian-plugin",
+    "preview",
+    "html",
+    "typeset"
+  ],
+  "author": "Fogecode",
+  "license": "MIT",
+  "dependencies": {
+    "highlight.js": "^11.11.0",
+    "marked": "^15.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "esbuild": "^0.25.0",
+    "obsidian": "^1.14.4",
+    "playwright-core": "^1.49.0",
+    "typescript": "^5.7.0"
+  }
+}
