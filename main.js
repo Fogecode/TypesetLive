@@ -52540,7 +52540,7 @@ var require_lib = __commonJS({
   }
 });
 
-// main.ts
+// src/main.ts
 var main_exports = {};
 __export(main_exports, {
   default: () => TypesetLivePlugin
@@ -52548,10 +52548,10 @@ __export(main_exports, {
 module.exports = __toCommonJS(main_exports);
 var import_obsidian3 = require("obsidian");
 
-// settings.ts
+// src/settings.ts
 var import_obsidian = require("obsidian");
 
-// themes/paper.ts
+// src/themes/paper.ts
 var paper = {
   id: "paper",
   name: "Paper",
@@ -52646,7 +52646,7 @@ var paper = {
   `
 };
 
-// themes/neo-brutalist.ts
+// src/themes/neo-brutalist.ts
 var neoBrutalist = {
   id: "neo-brutalist",
   name: "Neo-Brutalist",
@@ -52874,7 +52874,7 @@ var neoBrutalist = {
   `
 };
 
-// themes/swiss.ts
+// src/themes/swiss.ts
 var swiss = {
   id: "swiss",
   name: "Swiss",
@@ -53058,7 +53058,7 @@ var swiss = {
   `
 };
 
-// themes/nord-dark.ts
+// src/themes/nord-dark.ts
 var nordDark = {
   id: "nord-dark",
   name: "Nord Dark",
@@ -53214,7 +53214,7 @@ var nordDark = {
   `
 };
 
-// themes/solarized.ts
+// src/themes/solarized.ts
 var solarized = {
   id: "solarized",
   name: "Solarized Light",
@@ -53363,7 +53363,7 @@ var solarized = {
   `
 };
 
-// themes/magazine.ts
+// src/themes/magazine.ts
 var magazine = {
   id: "magazine",
   name: "Magazine",
@@ -53550,7 +53550,7 @@ var magazine = {
   `
 };
 
-// themes/github.ts
+// src/themes/github.ts
 var github = {
   id: "github",
   name: "GitHub",
@@ -53729,7 +53729,7 @@ var github = {
   `
 };
 
-// themes/terminal.ts
+// src/themes/terminal.ts
 var terminal = {
   id: "terminal",
   name: "Terminal",
@@ -54005,7 +54005,7 @@ var terminal = {
   `
 };
 
-// themes/base.css.ts
+// src/themes/base.css.ts
 var BASE_CSS = String.raw`/* ==========================================================================
    hx-export - base stylesheet (layout, typography, chrome)
    --------------------------------------------------------------------------
@@ -55129,7 +55129,7 @@ body {
 }
 `;
 
-// themes/index.ts
+// src/themes/index.ts
 var THEMES = [
   paper,
   neoBrutalist,
@@ -55152,7 +55152,7 @@ function getTheme(id) {
   return fallback != null ? fallback : THEMES[0];
 }
 
-// settings.ts
+// src/settings.ts
 var DEFAULT_SETTINGS = {
   themeId: DEFAULT_THEME_ID,
   followActiveNote: true,
@@ -55258,10 +55258,10 @@ var TypesetLiveSettingTab = class extends import_obsidian.PluginSettingTab {
   }
 };
 
-// view.ts
+// src/view.ts
 var import_obsidian2 = require("obsidian");
 
-// bridge.ts
+// src/bridge.ts
 var PREVIEW_BRIDGE_JS = `
 (function () {
   var SEND = function (msg) { try { parent.postMessage(msg, "*"); } catch (e) {} };
@@ -57540,7 +57540,7 @@ var lexer = _Lexer.lex;
 var import_lib = __toESM(require_lib(), 1);
 var es_default = import_lib.default;
 
-// render/markdown.ts
+// src/render/markdown.ts
 var CALLOUT_TITLE = {
   note: "Note",
   abstract: "Abstract",
@@ -57897,7 +57897,7 @@ async function renderMarkdown(markdown, ctx) {
   return { html: html2, toc: tocRoot, warnings, wordCount, readingMinutes };
 }
 
-// render/runtime.ts
+// src/render/runtime.ts
 var RUNTIME_JS = `(function () {
   var doc = document;
   var body = doc.body;
@@ -58039,7 +58039,7 @@ var RUNTIME_JS = `(function () {
   }
 })();`;
 
-// render/template.ts
+// src/render/template.ts
 function esc(value) {
   return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 }
@@ -58164,7 +58164,7 @@ function buildDocument(opts) {
   ].join("\n");
 }
 
-// renderdoc.ts
+// src/renderdoc.ts
 var IMAGE_MIME = {
   png: "image/png",
   jpg: "image/jpeg",
@@ -58281,7 +58281,7 @@ function describeError(error) {
   return String(error);
 }
 
-// view.ts
+// src/view.ts
 var VIEW_TYPE = "typeset-live-preview";
 var TypesetLiveView = class extends import_obsidian2.ItemView {
   constructor(leaf, plugin) {
@@ -58495,7 +58495,7 @@ function emptyDoc(message) {
   return `<!DOCTYPE html><html><head><meta charset="utf-8"><style>body{margin:0;height:100vh;display:flex;align-items:center;justify-content:center;background:#f8f8f6;color:#8b8b85;font-family:system-ui,-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;font-size:14px;line-height:1.8;padding:24px;text-align:center}</style></head><body><div>` + safe + "</div></body></html>";
 }
 
-// main.ts
+// src/main.ts
 var LIVE_EDIT_DELAY_MS = 600;
 var LEAF_SWITCH_DELAY_MS = 200;
 var TypesetLivePlugin = class extends import_obsidian3.Plugin {
