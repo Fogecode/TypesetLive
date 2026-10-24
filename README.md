@@ -39,7 +39,7 @@ Typeset Live 把同一套渲染直接放进 Obsidian：**所见即所得，写�
 ### 手动安装
 
 1. 下载本仓库（Code → Download ZIP 或 git clone）
-2. 把仓库根目录的 main.js、manifest.json、styles.css 放进你的仓库 .obsidian/plugins/typeset-live/ 文件夹（没有就新建）
+2. 把仓库根目录的 main.js、manifest.json、styles.css、versions.json 放进你的仓库 .obsidian/plugins/typeset-live/ 文件夹（没有就新建）
 3. 重启 Obsidian，设置 → 第三方插件 → 开启 **Typeset Live**
 
 ### 从源码构建
