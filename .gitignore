@@ -34,3 +34,9 @@ temp/
 !.env.example
 secrets.local.json
 plugin.config.json
+
+# ---- 自述备份文档（本地留存，不上传）----
+README-bak*.md
+README-archived*.md
+docs/README-bak*.md
+docs/README-archived*.md
