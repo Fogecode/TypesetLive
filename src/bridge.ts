@@ -27,6 +27,15 @@ export const PREVIEW_BRIDGE_JS = `
     }
     var nameEl = document.querySelector("[data-theme-name]");
     if (nameEl && label) nameEl.textContent = label;
+    // keep the gliding pill in sync when the theme is set from the host
+    // (in-page clicks go through the page runtime, which positions it too)
+    var pill = document.querySelector(".hx-theme-pill");
+    var active = label !== null ? document.querySelector(".hx-theme-switcher button.is-active") : null;
+    if (pill && active) {
+      pill.style.left = active.offsetLeft + "px";
+      pill.style.width = active.offsetWidth + "px";
+      if (!pill.classList.contains("is-ready")) pill.classList.add("is-ready");
+    }
   }
 
   SEND({
@@ -102,7 +111,22 @@ export const PREVIEW_BRIDGE_JS = `
       SEND({ type: "open-external", url: href });
       return;
     }
-    if (href && href.charAt(0) !== "#" && href.indexOf("javascript:") !== 0) {
+    if (href.charAt(0) === "#") {
+      // In-page anchors: letting the browser navigate an about:srcdoc sandbox
+      // frame reloads it into a blank document, so scroll to the target instead.
+      ev.preventDefault();
+      var hash = href.slice(1);
+      try { hash = decodeURIComponent(hash); } catch (e) {}
+      var targetEl = hash ? document.getElementById(hash) : null;
+      if (targetEl && targetEl.scrollIntoView) {
+        targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        try { window.scrollTo({ top: 0, behavior: "smooth" }); }
+        catch (e2) { window.scrollTo(0, 0); }
+      }
+      return;
+    }
+    if (href && href.indexOf("javascript:") !== 0) {
       ev.preventDefault();
       var target = href.replace(/^\\.\\//, "").replace(/\\.md$/i, "");
       try { target = decodeURIComponent(target); } catch (e) {}

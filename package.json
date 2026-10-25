@@ -1,6 +1,6 @@
 {
   "name": "obsidian-typeset-live",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Live in-Obsidian web preview of the current note, powered by the Typeset renderer.",
   "main": "main.js",
   "scripts": {

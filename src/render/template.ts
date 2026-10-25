@@ -98,7 +98,10 @@ function renderSwitcher(opts: DocumentOptions): string {
       "</button>"
     );
   });
-  return '<div class="hx-theme-switcher" role="group" aria-label="Visual style">' + buttons.join("") + "</div>";
+  // The pill is an absolutely positioned highlight that glides between
+  // buttons when the theme changes (positioned by the page runtime).
+  const pill = '<span class="hx-theme-pill" aria-hidden="true"></span>';
+  return '<div class="hx-theme-switcher" role="group" aria-label="Visual style">' + pill + buttons.join("") + "</div>";
 }
 
 /** Guess the document language from its body text. */
@@ -148,6 +151,14 @@ export function buildDocument(opts: DocumentOptions): string {
     opts.features.copyButtons;
   const script = needsScript ? "<script>" + RUNTIME_JS + "</scr" + "ipt>" : "";
 
+  // The switcher lives at the TOP of the page now: an invisible hover zone
+  // just above it reveals the bar when the pointer approaches the top edge,
+  // and it hides again when the pointer leaves. Both must precede the shell
+  // so the sibling selector (.hx-theme-hotzone:hover ~ .hx-theme-switcher)
+  // can drive the reveal in pure CSS.
+  const switcher = renderSwitcher(opts);
+  const hotzone = switcher ? '<div class="hx-theme-hotzone" aria-hidden="true"></div>' : "";
+
   return [
     "<!DOCTYPE html>",
     '<html lang="' + lang + '">',
@@ -163,9 +174,10 @@ export function buildDocument(opts: DocumentOptions): string {
     "</head>",
     '<body data-theme="' + esc(opts.theme.id) + '">',
     progress,
+    hotzone,
+    switcher,
     body.join("\n"),
     totop,
-    renderSwitcher(opts),
     script,
     "</body>",
     "</html>",

@@ -765,9 +765,8 @@ body {
 .hx-totop {
   position: fixed;
   right: clamp(0.9rem, 2.5vw, 2rem);
-  /* sit ABOVE the theme switcher: same bottom offset + pill height + gap,
-     so the two fixed controls can never overlap */
-  bottom: calc(clamp(0.9rem, 2.5vw, 2rem) + 3.5rem);
+  /* the theme switcher moved to the top edge, so the bottom lane is free */
+  bottom: clamp(0.9rem, 2.5vw, 2rem);
   z-index: 50;
   display: grid;
   place-items: center;
@@ -800,10 +799,43 @@ body {
   border-color: var(--hx-accent);
 }
 
+/* ---------- theme cross-fade ---------- */
+/* Colour tokens change when the reader picks another theme; let the painted
+   properties glide instead of snapping. Explicit element list so layout
+   properties never animate. */
+html, body, .hx-shell, .hx-header, .hx-content, .hx-content p, .hx-content li,
+.hx-content h1, .hx-content h2, .hx-content h3, .hx-content h4,
+.hx-content h5, .hx-content h6, .hx-content pre, .hx-content code,
+.hx-content blockquote, .hx-content table, .hx-content th, .hx-content td,
+.hx-callout, .hx-callout-title, .hx-callout-body, .hx-badge, .hx-meta,
+.hx-frontmatter, .hx-figure, .hx-caption, .hx-table-wrap, .hx-toc,
+.hx-toc a, .hx-footer, .hx-totop, .hx-progress, .hx-code-block,
+.hx-embed-missing {
+  transition: background-color 0.55s ease, color 0.55s ease,
+    border-color 0.55s ease, box-shadow 0.55s ease;
+}
+
+/* ---------- theme switcher: top edge, auto-hidden ---------- */
+
+/* Invisible strip along the top edge. Hovering it reveals the bar below it;
+   the bar keeps itself visible while hovered or focused. Must precede the
+   switcher in the DOM for the ~ sibling selector to work. */
+.hx-theme-hotzone {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 44px;
+  z-index: 49;
+  background: transparent;
+  cursor: default;
+}
+
 .hx-theme-switcher {
+  --hx-sw-x: -50%;
   position: fixed;
   left: 50%;
-  bottom: clamp(0.9rem, 2.5vw, 2rem);
+  top: clamp(0.9rem, 2.5vw, 2rem);
   z-index: 50;
   display: flex;
   /* One row, always: eight labels must never stack into a tall band that
@@ -823,8 +855,25 @@ body {
   border-radius: 999px;
   background: color-mix(in srgb, var(--hx-surface) 88%, transparent);
   backdrop-filter: blur(10px) saturate(140%);
-  box-shadow: var(--hx-shadow);
-  transform: translateX(-50%);
+  box-shadow: var(--hx-shadow), 0 0 26px color-mix(in srgb, var(--hx-accent) 12%, transparent);
+  /* auto-hidden by default; glides down when revealed */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(var(--hx-sw-x), -160%);
+  transition: opacity 0.3s ease, transform 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s linear 0.36s;
+}
+
+.hx-theme-hotzone:hover ~ .hx-theme-switcher,
+.hx-theme-switcher:hover,
+.hx-theme-switcher:focus-within {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translate(var(--hx-sw-x), 0);
+  transition: opacity 0.22s ease, transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s;
 }
 
 .hx-theme-switcher::-webkit-scrollbar {
@@ -833,7 +882,43 @@ body {
   height: 0;
 }
 
+/* The pill glides under the buttons as the theme changes. */
+.hx-theme-pill {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 0;
+  width: 0;
+  border-radius: 999px;
+  background: var(--hx-accent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--hx-accent) 45%, transparent),
+    0 0 12px color-mix(in srgb, var(--hx-accent) 26%, transparent);
+  opacity: 0;
+  z-index: 0;
+  pointer-events: none;
+  transition: left 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.45s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.5s ease;
+}
+
+.hx-theme-pill.is-ready {
+  opacity: 1;
+  animation: hx-pill-breathe 2.6s ease-in-out infinite;
+}
+
+@keyframes hx-pill-breathe {
+  0%, 100% {
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--hx-accent) 45%, transparent),
+      0 0 10px color-mix(in srgb, var(--hx-accent) 22%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--hx-accent) 60%, transparent),
+      0 0 22px color-mix(in srgb, var(--hx-accent) 45%, transparent);
+  }
+}
+
 .hx-theme-switcher button {
+  position: relative;
+  z-index: 1;
   flex: 0 0 auto;
   padding: 0.32rem 0.66rem;
   border: 1px solid transparent;
@@ -844,18 +929,30 @@ body {
   font-size: 0.72rem;
   letter-spacing: 0.02em;
   cursor: pointer;
-  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  /* backlight + press-scale choreography (motion borrowed from glassmorphism
+     button studies; colours stay theme-native) */
+  transition: color 0.22s ease, background 0.22s ease, border-color 0.22s ease,
+    box-shadow 0.26s ease, transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .hx-theme-switcher button:hover {
   color: var(--hx-text);
   background: var(--hx-surface-alt);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--hx-border) 85%, transparent),
+    0 0 16px color-mix(in srgb, var(--hx-accent) 30%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.hx-theme-switcher button:active {
+  transform: scale(0.94);
 }
 
 .hx-theme-switcher button.is-active {
   color: var(--hx-accent-contrast);
-  background: var(--hx-accent);
-  border-color: var(--hx-accent);
+  /* the pill provides the highlight; keep the label readable above it */
+  background: none;
+  border-color: transparent;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
 }
 
 /* ---------- responsive ---------- */
@@ -886,7 +983,7 @@ body {
        always fills the available width and never overflows the viewport */
     left: 0.8rem;
     right: 0.8rem;
-    transform: none;
+    --hx-sw-x: 0;
     width: auto;
     /* edges are pinned, so width is already viewport-bounded; clearing
        max-width avoids 100vw (which counts the scrollbar) re-introducing overflow */
@@ -903,11 +1000,6 @@ body {
     flex: 0 0 auto;
     scroll-snap-align: center;
   }
-
-  /* the base .hx-totop offset already clears the pill; only tighten it */
-  .hx-totop {
-    bottom: calc(clamp(0.9rem, 2.5vw, 2rem) + 3.2rem);
-  }
 }
 
 @media (max-width: 560px) {
@@ -923,7 +1015,7 @@ body {
   }
 
   .hx-theme-switcher {
-    bottom: 0.75rem;
+    top: 0.75rem;
     gap: 0.2rem;
     padding: 0.28rem;
   }
@@ -938,7 +1030,7 @@ body {
   }
 
   .hx-totop {
-    bottom: 4.4rem;
+    bottom: 0.9rem;
     width: 2.5rem;
     height: 2.5rem;
   }
@@ -951,7 +1043,8 @@ body {
   .hx-toc,
   .hx-totop,
   .hx-copy-btn,
-  .hx-theme-switcher {
+  .hx-theme-switcher,
+  .hx-theme-hotzone {
     display: none !important;
   }
 
