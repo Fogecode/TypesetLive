@@ -40,3 +40,7 @@ README-bak*.md
 README-archived*.md
 docs/README-bak*.md
 docs/README-archived*.md
+
+# ---- 成品插件包（本地留存，随 Release 手动发布，不进版本库）----
+plugin/
+*.zip
