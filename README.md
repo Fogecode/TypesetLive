@@ -70,7 +70,7 @@ npm run build   # 产出 main.js
 
 ## 与 Typeset 的关系
 
-姊妹插件，同一套渲染管线：**Typeset 负责导出文件，Typeset Live 负责原地预览**。两者互不依赖，可以只装一个，也可以同时安装。[Typeset](https://github.com/Fogecode/Typeset) 仓库已归档（原自述保留在其 docs/ 目录），导出功能完整可用。
+姊妹插件，同一套渲染管线：**Typeset 负责导出文件，Typeset Live 负责原地预览**。两者互不依赖，可以只装一个，也可以同时安装。[Typeset](https://github.com/Fogecode/Typeset) 仓库暂时归档（后续仍会更新），负责把笔记导出成可分享的 HTML 文件。
 
 ## 兼容性
 
